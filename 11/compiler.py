@@ -9,9 +9,6 @@ from XMLWriter import XMLWriter
 class JackAnalyzer:
     def __init__(self):
         self.tokenizer = Tokenizer()
-        self.parser = Parser(
-            'compiler_config.json',
-        )
 
     def cleanse_line(self, line: str):
         match = re.search(r'//', line)
@@ -55,20 +52,28 @@ class JackAnalyzer:
 
         return tokens
 
-    def parse(self, tokens: List[str]):
-        return self.parser.parse(tokens, 'class')
+
+def write_vms(vms, output_path):
+    with open(output_path, 'w') as f:
+        for vm in vms:
+            if isinstance(vm, list):
+                vm = ' '.join([str(elem) for elem in vm])
+            f.write(vm + '\n')
 
 
 def compile(input_path: str, xml_output_path: str, vm_output_path: str):
     jack_analyzer = JackAnalyzer()
     tokens = jack_analyzer.tokenize(input_path)
-    token_tree = jack_analyzer.parse(tokens)
+
+    parser = Parser('compiler_config.json')
+    token_tree = parser.parse(tokens)
 
     xml_writer = XMLWriter()
     xml_writer.write_xml(token_tree, xml_output_path)
 
     converter = Converter()
-    converter.analyze(token_tree)
+    vms = converter.convert(token_tree)
+    write_vms(vms, vm_output_path)
 
 
 def get_xml_output_path(input_path: str):
@@ -77,23 +82,23 @@ def get_xml_output_path(input_path: str):
 
 
 def get_vm_output_path(input_path: str):
-    output_path = '.'.join(input_path.split('.')[:-1]) + '.vm'
+    output_path = '.'.join(input_path.split('.')[:-1]) + '_Output.vm'
     return output_path
 
 
 def run():
     input_paths = [
-        'Average/Test.jack',
-        # 'Average/Main.jack',
-        # 'ComplexArrays/Main.jack',
+        'Seven/Main.jack',
         # 'ConvertToBin/Main.jack',
         # 'Square/Main.jack',
         # 'Square/Square.jack',
         # 'Square/SquareGame.jack',
+        # 'Average/Main.jack',
         # 'Pong/Main.jack',
         # 'Pong/Ball.jack',
         # 'Pong/Bat.jack',
         # 'Pong/PongGame.jack',
+        # 'ComplexArrays/Main.jack',
     ]
 
     for input_path in input_paths:
