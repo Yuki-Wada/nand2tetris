@@ -1,0 +1,65 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/01/Or16.hdl
+
+/**
+ * 16-bit bitwise Or:
+ * for i = 0..15 out[i] = (a[i] or b[i])
+ */
+
+CHIP Or16 {
+    IN a[16], b[16];
+    OUT out[16];
+
+    PARTS:
+    // Put your code here:
+    Nand (a=a[0], b=a[0], out=mida0);
+    Nand (a=b[0], b=b[0], out=midb0);
+    Nand (a=mida0, b=midb0, out=out[0]);
+    Nand (a=a[1], b=a[1], out=mida1);
+    Nand (a=b[1], b=b[1], out=midb1);
+    Nand (a=mida1, b=midb1, out=out[1]);
+    Nand (a=a[2], b=a[2], out=mida2);
+    Nand (a=b[2], b=b[2], out=midb2);
+    Nand (a=mida2, b=midb2, out=out[2]);
+    Nand (a=a[3], b=a[3], out=mida3);
+    Nand (a=b[3], b=b[3], out=midb3);
+    Nand (a=mida3, b=midb3, out=out[3]);
+    Nand (a=a[4], b=a[4], out=mida4);
+    Nand (a=b[4], b=b[4], out=midb4);
+    Nand (a=mida4, b=midb4, out=out[4]);
+    Nand (a=a[5], b=a[5], out=mida5);
+    Nand (a=b[5], b=b[5], out=midb5);
+    Nand (a=mida5, b=midb5, out=out[5]);
+    Nand (a=a[6], b=a[6], out=mida6);
+    Nand (a=b[6], b=b[6], out=midb6);
+    Nand (a=mida6, b=midb6, out=out[6]);
+    Nand (a=a[7], b=a[7], out=mida7);
+    Nand (a=b[7], b=b[7], out=midb7);
+    Nand (a=mida7, b=midb7, out=out[7]);
+    Nand (a=a[8], b=a[8], out=mida8);
+    Nand (a=b[8], b=b[8], out=midb8);
+    Nand (a=mida8, b=midb8, out=out[8]);
+    Nand (a=a[9], b=a[9], out=mida9);
+    Nand (a=b[9], b=b[9], out=midb9);
+    Nand (a=mida9, b=midb9, out=out[9]);
+    Nand (a=a[10], b=a[10], out=mida10);
+    Nand (a=b[10], b=b[10], out=midb10);
+    Nand (a=mida10, b=midb10, out=out[10]);
+    Nand (a=a[11], b=a[11], out=mida11);
+    Nand (a=b[11], b=b[11], out=midb11);
+    Nand (a=mida11, b=midb11, out=out[11]);
+    Nand (a=a[12], b=a[12], out=mida12);
+    Nand (a=b[12], b=b[12], out=midb12);
+    Nand (a=mida12, b=midb12, out=out[12]);
+    Nand (a=a[13], b=a[13], out=mida13);
+    Nand (a=b[13], b=b[13], out=midb13);
+    Nand (a=mida13, b=midb13, out=out[13]);
+    Nand (a=a[14], b=a[14], out=mida14);
+    Nand (a=b[14], b=b[14], out=midb14);
+    Nand (a=mida14, b=midb14, out=out[14]);
+    Nand (a=a[15], b=a[15], out=mida15);
+    Nand (a=b[15], b=b[15], out=midb15);
+    Nand (a=mida15, b=midb15, out=out[15]);
+}

@@ -1,0 +1,36 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/03/a/RAM64.hdl
+
+/**
+ * Memory of 64 registers, each 16 bit-wide. Out holds the value
+ * stored at the memory location specified by address. If load==1, then 
+ * the in value is loaded into the memory location specified by address 
+ * (the loaded value will be emitted to out from the next time step onward).
+ */
+
+CHIP RAM64 {
+    IN in[16], load, address[6];
+    OUT out[16];
+
+    PARTS:
+    // Put your code here:
+    Mux8Way16(a[0]=load, b[0]=false, c[0]=false, d[0]=false, e[0]=false, f[0]=false, g[0]=false, h[0]=false, sel=address[3..5], out[0]=load0);
+    Mux8Way16(a[0]=false, b[0]=load, c[0]=false, d[0]=false, e[0]=false, f[0]=false, g[0]=false, h[0]=false, sel=address[3..5], out[0]=load1);
+    Mux8Way16(a[0]=false, b[0]=false, c[0]=load, d[0]=false, e[0]=false, f[0]=false, g[0]=false, h[0]=false, sel=address[3..5], out[0]=load2);
+    Mux8Way16(a[0]=false, b[0]=false, c[0]=false, d[0]=load, e[0]=false, f[0]=false, g[0]=false, h[0]=false, sel=address[3..5], out[0]=load3);
+    Mux8Way16(a[0]=false, b[0]=false, c[0]=false, d[0]=false, e[0]=load, f[0]=false, g[0]=false, h[0]=false, sel=address[3..5], out[0]=load4);
+    Mux8Way16(a[0]=false, b[0]=false, c[0]=false, d[0]=false, e[0]=false, f[0]=load, g[0]=false, h[0]=false, sel=address[3..5], out[0]=load5);
+    Mux8Way16(a[0]=false, b[0]=false, c[0]=false, d[0]=false, e[0]=false, f[0]=false, g[0]=load, h[0]=false, sel=address[3..5], out[0]=load6);
+    Mux8Way16(a[0]=false, b[0]=false, c[0]=false, d[0]=false, e[0]=false, f[0]=false, g[0]=false, h[0]=load, sel=address[3..5], out[0]=load7);
+    RAM8(in=in, load=load0, address=address[0..2], out=mid0);
+    RAM8(in=in, load=load1, address=address[0..2], out=mid1);
+    RAM8(in=in, load=load2, address=address[0..2], out=mid2);
+    RAM8(in=in, load=load3, address=address[0..2], out=mid3);
+    RAM8(in=in, load=load4, address=address[0..2], out=mid4);
+    RAM8(in=in, load=load5, address=address[0..2], out=mid5);
+    RAM8(in=in, load=load6, address=address[0..2], out=mid6);
+    RAM8(in=in, load=load7, address=address[0..2], out=mid7);
+    Mux8Way16(a=mid0, b=mid1, c=mid2, d=mid3, e=mid4, f=mid5, g=mid6, h=mid7, sel=address[3..5], out=out);
+}
