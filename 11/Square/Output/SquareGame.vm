@@ -1,0 +1,179 @@
+function SquareGame.new 0
+push constant 2
+call Memory.alloc 1
+pop pointer 0
+push constant 0
+push constant 0
+push constant 30
+call Square.new 3
+pop this 0
+push constant 0
+pop this 1
+push pointer 0
+return
+function SquareGame.dispose 0
+push argument 0
+pop pointer 0
+push this 0
+call Square.dispose 1
+pop temp 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
+function SquareGame.moveSquare 0
+push argument 0
+pop pointer 0
+push this 1
+push constant 1
+eq
+if-goto 0YKgSNermshmWzX9
+goto 9dlp7PiVmTqwzFbe
+label 0YKgSNermshmWzX9
+push this 0
+call Square.moveUp 1
+pop temp 0
+label 9dlp7PiVmTqwzFbe
+push this 1
+push constant 2
+eq
+if-goto QJCJFe4USjRJG8Ss
+goto 03NJuYrtd42zm4yw
+label QJCJFe4USjRJG8Ss
+push this 0
+call Square.moveDown 1
+pop temp 0
+label 03NJuYrtd42zm4yw
+push this 1
+push constant 3
+eq
+if-goto m4FfaBZ5akkZikkf
+goto Bg19F4fnL1IMr8jW
+label m4FfaBZ5akkZikkf
+push this 0
+call Square.moveLeft 1
+pop temp 0
+label Bg19F4fnL1IMr8jW
+push this 1
+push constant 4
+eq
+if-goto U2DWfcgIBEJ9QkLP
+goto Kffxwvidk1BNSKdY
+label U2DWfcgIBEJ9QkLP
+push this 0
+call Square.moveRight 1
+pop temp 0
+label Kffxwvidk1BNSKdY
+push constant 5
+call Sys.wait 1
+pop temp 0
+push constant 0
+return
+function SquareGame.run 2
+push argument 0
+pop pointer 0
+push constant 0
+pop local 1
+label V6egjpZrf1NQOPFN
+push local 1
+not
+not
+if-goto xOjnv8LiFsqFNGyo
+label 64g2KE3A0GOjPSkE
+push local 0
+push constant 0
+eq
+not
+if-goto QdctXwq2VVJQryqj
+call Keyboard.keyPressed 0
+pop local 0
+push pointer 0
+call SquareGame.moveSquare 1
+pop temp 0
+goto 64g2KE3A0GOjPSkE
+label QdctXwq2VVJQryqj
+push local 0
+push constant 81
+eq
+if-goto pYYa7dw74dWwYK9v
+goto 0mSQVU6oElSsfpqq
+label pYYa7dw74dWwYK9v
+push constant 0
+not
+pop local 1
+label 0mSQVU6oElSsfpqq
+push local 0
+push constant 90
+eq
+if-goto 38P0dTJawz0Ici1K
+goto 7LRgugRGXP5mC0YJ
+label 38P0dTJawz0Ici1K
+push this 0
+call Square.decSize 1
+pop temp 0
+label 7LRgugRGXP5mC0YJ
+push local 0
+push constant 88
+eq
+if-goto dLmad13RSikSpQo7
+goto ACce5OLjbonfXSmj
+label dLmad13RSikSpQo7
+push this 0
+call Square.incSize 1
+pop temp 0
+label ACce5OLjbonfXSmj
+push local 0
+push constant 131
+eq
+if-goto QxDHe0CouqpLfxM2
+goto bcvwDubVRv6xsMpS
+label QxDHe0CouqpLfxM2
+push constant 1
+pop this 1
+label bcvwDubVRv6xsMpS
+push local 0
+push constant 133
+eq
+if-goto QhzlaQ3MBBTCCu54
+goto snjotQxZFmSp0zk4
+label QhzlaQ3MBBTCCu54
+push constant 2
+pop this 1
+label snjotQxZFmSp0zk4
+push local 0
+push constant 130
+eq
+if-goto Ia7QZFz3qevhE4eO
+goto wMqTeFCqOCgRgBMN
+label Ia7QZFz3qevhE4eO
+push constant 3
+pop this 1
+label wMqTeFCqOCgRgBMN
+push local 0
+push constant 132
+eq
+if-goto IpjpqVR7KJ7aCbfd
+goto P4kTv2lTnrbLbgWm
+label IpjpqVR7KJ7aCbfd
+push constant 4
+pop this 1
+label P4kTv2lTnrbLbgWm
+label eMGv2DFw4AVKbFdM
+push local 0
+push constant 0
+eq
+not
+not
+if-goto 1cKuZth2ln0Xg9Aw
+call Keyboard.keyPressed 0
+pop local 0
+push pointer 0
+call SquareGame.moveSquare 1
+pop temp 0
+goto eMGv2DFw4AVKbFdM
+label 1cKuZth2ln0Xg9Aw
+goto V6egjpZrf1NQOPFN
+label xOjnv8LiFsqFNGyo
+push constant 0
+return

@@ -11,7 +11,7 @@ class SymbolTable:
             defaultdict(int)
         self.subroutine_count_dict: DefaultDict[Tuple[str, str, str], int] = \
             defaultdict(int)
-        self.class_variable_table = []
+        self.class_member_variable_table = []
         self.class_subroutine_table = []
         self.class_subroutine_variable_table = []
         self.used_labels: Set[str] = set()
@@ -21,18 +21,18 @@ class SymbolTable:
         nodes = tree.nodes
 
         var_attr = nodes[0].single_token
-        var_type = nodes[1].single_token
+        var_type = nodes[1].nodes[0].single_token
 
         i = 2
         while i < len(nodes):
-            var_name = nodes[i].label
+            var_name = nodes[i].single_token
             if var_attr == 'static':
                 count = self.var_count_dict[(class_name, var_attr)]
-                self.count_dict[(class_name, var_attr)] += 1
+                self.var_count_dict[(class_name, var_attr)] += 1
             if var_attr == 'field':
                 count = self.var_count_dict[(class_name, var_attr)]
                 self.var_count_dict[(class_name, var_attr)] += 1
-            self.class_variable_table.append([
+            self.class_member_variable_table.append([
                 class_name, var_name, var_type, var_attr, count
             ])
             i += 2
@@ -66,14 +66,14 @@ class SymbolTable:
         nodes = tree.nodes
 
         var_attr = 'var'
-        var_type = nodes[1].single_token
+        var_type = nodes[1].nodes[0].single_token
 
         i = 2
         while i < len(nodes):
             var_name = nodes[i].single_token
             var_count = self.subroutine_count_dict[(
                 class_name, subroutine_name, var_attr)]
-            self.class_variable_table.append([
+            self.class_subroutine_variable_table.append([
                 class_name, subroutine_name, var_name, var_type,
                 var_attr, var_count
             ])
@@ -88,7 +88,7 @@ class SymbolTable:
         nodes = tree.nodes
 
         for node in nodes:
-            if node.single_token == 'varDec':
+            if node.label == 'varDec':
                 self.analyze_var_dec(node, class_name, subroutine_name)
 
     def analyze_subroutine_dec(self, tree: TokenTree, class_name: str):
@@ -114,6 +114,17 @@ class SymbolTable:
                 self.analyze_class_var_dec(node, class_name)
             if node.label == 'subroutineDec':
                 self.analyze_subroutine_dec(node, class_name)
+
+    def get_class_field_count(
+        self,
+        target_class_name: str,
+    ):
+        count = 0
+        for info in self.class_member_variable_table:
+            class_name, _, _, var_attr, _ = info
+            if var_attr == 'field' and target_class_name == class_name:
+                count += 1
+        return count
 
     def get_subroutine_argument_count(
         self,
@@ -144,15 +155,40 @@ class SymbolTable:
     def get_variable_info(
         self,
         target_class_name: str,
+        target_subroutine_name: str,
         target_var_name: str,
     ):
-        for info in self.class_variable_table:
-            class_name, var_name, _, var_attr, order = info
+        attr2segment = {
+            'field': 'this',
+            'static': 'static',
+            'argument': 'argument',
+            'var': 'local',
+        }
+        for info in self.class_member_variable_table:
+            class_name, var_name, var_type, var_attr, order = info
             if target_class_name == class_name and \
                     target_var_name == var_name:
-                return [var_attr, order]
+                var_segment = attr2segment[var_attr]
+                return [var_type, var_segment, order]
 
-        raise ValueError('Undefined')
+        for info in self.class_subroutine_variable_table:
+            class_name, subroutine_name, var_name, var_type, var_attr, order = info
+            if target_class_name == class_name and \
+                    target_subroutine_name == subroutine_name and \
+                    target_var_name == var_name:
+                var_segment = attr2segment[var_attr]
+
+                subroutine_info = self.get_subroutine_info(
+                    target_class_name, target_subroutine_name,
+                )
+                if subroutine_info:
+                    _, subroutine_attr = subroutine_info
+                    if subroutine_attr == 'method' and var_segment == 'argument':
+                        order += 1
+
+                return [var_type, var_segment, order]
+
+        return None
 
     def get_subroutine_info(
         self,
@@ -160,13 +196,12 @@ class SymbolTable:
         target_subroutine_name: str,
     ):
         for info in self.class_subroutine_table:
-
             class_name, subroutine_name, return_type, subroutine_attr = info
             if target_class_name == class_name and \
                     target_subroutine_name == subroutine_name:
                 return [return_type, subroutine_attr]
 
-        raise ValueError('Undefined')
+        raise ValueError('Undefined Subroutine')
 
     def generate_label(self):
         while True:
