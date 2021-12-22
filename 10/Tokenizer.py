@@ -24,23 +24,6 @@ def get_token_type(token: str):
     raise ValueError('Wrong token type')
 
 
-def is_token_type(token: str, token_type: str):
-    if token_type == 'keywordConstant':
-        return token in keyword_set
-    if token_type == 'integerConstant':
-        return token.isnumeric()
-    if token_type == 'stringConstant':
-        return token.startswith('"')
-    if token_type == 'identifier':
-        return re.match(r'[a-zA-Z][a-zA-Z0-9]*', token) is not None
-
-    return False
-
-
-def is_symbol(chars):
-    return chars in symbol_set
-
-
 class Tokenizer:
     def __init__(self):
         self.keyword_set = set([
@@ -87,5 +70,47 @@ class Tokenizer:
 
         if token:
             tokens.append(token)
+
+        return tokens
+
+    def cleanse_line(self, line: str):
+        match = re.search(r'//', line)
+        if match is not None:
+            line = line[:match.start()]
+        line = line.strip()
+
+        return line
+
+    def remove_comment(self, raw_content: str):
+        content = ''
+        i = 0
+        in_comment = False
+        while i < len(raw_content):
+            if not in_comment and raw_content[i:i + 2] == '/*':
+                in_comment = True
+                i += 2
+                continue
+            elif in_comment and raw_content[i:i + 2] == '*/':
+                in_comment = False
+                i += 2
+                continue
+
+            if not in_comment:
+                content += raw_content[i]
+
+            i += 1
+
+        return content
+
+    def tokenize_file(self, input_path: str):
+        content = ''
+        with open(input_path, 'r') as f:
+            for line in f.readlines():
+                line = self.cleanse_line(line)
+                if line:
+                    content += line + ' '
+
+        content = self.remove_comment(content)
+        tokens = self.tokenize(content)
 
         return tokens

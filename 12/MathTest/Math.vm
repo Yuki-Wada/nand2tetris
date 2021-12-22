@@ -1,0 +1,276 @@
+function Math.init 0
+push constant 0
+return
+function Math.abs 1
+push argument 0
+pop local 0
+push argument 0
+push constant 0
+lt
+if-goto iIcdh6hc7hipLp33
+goto 5GGUjyyyd2kVcCcH
+label iIcdh6hc7hipLp33
+push argument 0
+neg
+pop local 0
+label 5GGUjyyyd2kVcCcH
+push local 0
+return
+function Math.multiply 4
+push constant 0
+pop local 0
+push constant 0
+pop local 1
+push constant 1
+pop local 2
+push argument 0
+pop local 3
+label gGPSfDtR0ybeA14n
+push argument 1
+push constant 0
+eq
+not
+not
+if-goto LCbF9GR5Ex8tiLps
+push argument 1
+push local 2
+and
+push constant 0
+eq
+not
+if-goto wvDuadOaz8NPzcBe
+goto 6d3al9nmk0NOUQAc
+label wvDuadOaz8NPzcBe
+push local 0
+push local 3
+add
+pop local 0
+push argument 1
+push local 2
+sub
+pop argument 1
+label 6d3al9nmk0NOUQAc
+push local 3
+push local 3
+add
+pop local 3
+push local 2
+push local 2
+add
+pop local 2
+goto gGPSfDtR0ybeA14n
+label LCbF9GR5Ex8tiLps
+push local 0
+return
+function Math.divide 4
+push argument 0
+call Math.abs 1
+pop local 2
+push argument 1
+call Math.abs 1
+pop local 3
+push constant 0
+pop local 0
+push local 3
+push local 2
+gt
+if-goto nsLEFxZr5GjfGLqE
+goto RGiitLyd6bvA9yZ1
+label nsLEFxZr5GjfGLqE
+push constant 0
+return
+label RGiitLyd6bvA9yZ1
+push local 2
+push local 3
+push local 3
+add
+call Math.divide 2
+pop local 1
+push local 2
+push local 1
+push local 1
+add
+push local 3
+call Math.multiply 2
+sub
+push local 3
+lt
+if-goto 3X3LcxUekcXA5wAb
+goto H6GziL8Lva1XjFr4
+label 3X3LcxUekcXA5wAb
+push local 1
+push local 1
+add
+pop local 0
+goto nH1xK2qFMxGF3FBL
+label H6GziL8Lva1XjFr4
+push local 1
+push local 1
+add
+push constant 1
+add
+pop local 0
+label nH1xK2qFMxGF3FBL
+push argument 0
+push constant 0
+lt
+if-goto GsUhK8ECIwLaHC0S
+goto M7bpwiPFd6Csj9F9
+label GsUhK8ECIwLaHC0S
+push local 0
+neg
+pop local 0
+label M7bpwiPFd6Csj9F9
+push argument 1
+push constant 0
+lt
+if-goto abnqTpPizbnxDFmx
+goto 44UDRis9fhdWfoKf
+label abnqTpPizbnxDFmx
+push local 0
+neg
+pop local 0
+label 44UDRis9fhdWfoKf
+push local 0
+return
+function Math.sqrt 5
+push constant 0
+pop local 2
+push constant 8
+call Array.new 1
+pop local 4
+push constant 0
+push local 4
+add
+push constant 128
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 4
+add
+push constant 64
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 4
+add
+push constant 32
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 4
+add
+push constant 16
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 4
+push local 4
+add
+push constant 8
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 5
+push local 4
+add
+push constant 4
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 6
+push local 4
+add
+push constant 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 7
+push local 4
+add
+push constant 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 0
+pop local 0
+label vYPxlwrjoMZjD80m
+push local 2
+push constant 8
+lt
+not
+if-goto 9dCw3TGibNH6ajC7
+push local 0
+push local 2
+push local 4
+add
+pop pointer 1
+push that 0
+add
+pop local 1
+push local 1
+push local 1
+call Math.multiply 2
+pop local 3
+push local 3
+push constant 0
+lt
+not
+push local 3
+push argument 0
+gt
+not
+and
+if-goto srr7lyW03jQMlD4K
+goto wgA7TVSBKHoq9OTa
+label srr7lyW03jQMlD4K
+push local 1
+pop local 0
+label wgA7TVSBKHoq9OTa
+push local 2
+push constant 1
+add
+pop local 2
+goto vYPxlwrjoMZjD80m
+label 9dCw3TGibNH6ajC7
+push local 0
+return
+function Math.max 1
+push argument 0
+pop local 0
+push argument 0
+push argument 1
+lt
+if-goto W8WF2FH718W6eeAa
+goto 9QTVvTlDDFJHJvWo
+label W8WF2FH718W6eeAa
+push argument 1
+pop local 0
+label 9QTVvTlDDFJHJvWo
+push local 0
+return
+function Math.min 1
+push argument 0
+pop local 0
+push argument 0
+push argument 1
+gt
+if-goto 4H75j77XOeXpcJk5
+goto 3Iqadt5dQ1jBC7Sz
+label 4H75j77XOeXpcJk5
+push argument 1
+pop local 0
+label 3Iqadt5dQ1jBC7Sz
+push local 0
+return

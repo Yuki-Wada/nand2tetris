@@ -11,7 +11,6 @@ class Math {
 
     /** Initializes the library. */
     function void init() {
-        return;
     }
 
     /** Returns the absolute value of x. */
@@ -40,12 +39,11 @@ class Math {
         let shiftedX = x;
 
         while (~(y = 0)) {
-            if (~((y & currentYBit) = 0)) {
-                let res = res + shiftedX;
-                let y = y - currentYBit;
+            if (~(y & currentYBit = 0)) {
+                res = res + shiftedX;
+                y = y - currentYBit;
             }
-            let shiftedX = shiftedX + shiftedX;
-            let currentYBit = currentYBit + currentYBit;
+            shiftedX = shiftedX + shiftedX;
         }
 
         return res;
@@ -57,63 +55,25 @@ class Math {
      *  the Jack expressions x/y and divide(x,y) return the same value.
      */
     function int divide(int x, int y) {
-        var int res, q;
-        var int absx, absy;
-
-        let absx = Math.abs(x);
-        let absy = Math.abs(y);
-
+        var int res;
         let res = 0;
-
-        if (absy > absx) {
-            return 0;
-        }
-
-        let q = divide(absx, absy + absy);
-        if ((absx - ((q + q) * absy)) < absy) {
-            let res = q + q;
+        if (y > x) {
+            res = 0;
         }
         else {
-            let res = q + q + 1;
+            let q = divide(x, y + y);
+            if (x - (q + q) * y < y) {
+                let res = q + 1;
+            }
+            {
+                let res = q + q + 1;
+            }
         }
-
-        if (x < 0) {
-            let res = -res;
-        }
-        if (y < 0) {
-            let res = -res;
-        }
-
-        return res;
     }
 
     /** Returns the integer part of the square root of x. */
     function int sqrt(int x) {
-        var int res, applicant, i, pow;
-        var Array incr;
-
-        let i = 0;
-        let incr = Array.new(8);
-        let incr[0] = 128;
-        let incr[1] = 64;
-        let incr[2] = 32;
-        let incr[3] = 16;
-        let incr[4] = 8;
-        let incr[5] = 4;
-        let incr[6] = 2;
-        let incr[7] = 1;
-
-        let res = 0;
-        while (i < 8) {
-            let applicant = res + incr[i];
-            let pow = applicant * applicant;
-            if (~(pow < 0) & ~(pow > x)) {
-                let res = applicant;
-            }
-            let i = i + 1;
-        }
-
-        return res;
+        return x;
     }
 
     /** Returns the greater number. */

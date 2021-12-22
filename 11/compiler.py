@@ -1,57 +1,47 @@
 import os
-from typing import List
-import re
 from Tokenizer import Tokenizer
 from Parser import Parser
 from Converter import Converter
 from XMLWriter import XMLWriter
 
 
-class JackAnalyzer:
-    def __init__(self):
-        self.tokenizer = Tokenizer()
+def get_xml_output_path(input_path: str):
+    output_dir_path = os.path.join(
+        os.path.dirname(input_path), 'Output',
+    )
+    os.makedirs(output_dir_path, exist_ok=True)
+    input_file_name = os.path.basename(input_path)
 
-    def cleanse_line(self, line: str):
-        match = re.search(r'//', line)
-        if match is not None:
-            line = line[:match.start()]
-        line = line.strip()
+    output_path = os.path.join(
+        output_dir_path,
+        '.'.join(input_file_name.split('.')[:-1]) + '.xml',
+    )
+    return output_path
 
-        return line
 
-    def remove_comment(self, raw_content: str):
-        content = ''
-        i = 0
-        in_comment = False
-        while i < len(raw_content):
-            if not in_comment and raw_content[i:i + 2] == '/*':
-                in_comment = True
-                i += 2
-                continue
-            elif in_comment and raw_content[i:i + 2] == '*/':
-                in_comment = False
-                i += 2
-                continue
+def get_vm_output_path(input_path: str):
+    output_dir_path = os.path.join(
+        os.path.dirname(input_path), 'Output',
+    )
+    os.makedirs(output_dir_path, exist_ok=True)
+    input_file_name = os.path.basename(input_path)
 
-            if not in_comment:
-                content += raw_content[i]
+    output_path = os.path.join(
+        output_dir_path,
+        '.'.join(input_file_name.split('.')[:-1]) + '.vm',
+    )
+    return output_path
 
-            i += 1
 
-        return content
+def get_vm_right_path(input_path: str):
+    output_dir_path = os.path.dirname(input_path)
+    input_file_name = os.path.basename(input_path)
 
-    def tokenize(self, input_path: str):
-        content = ''
-        with open(input_path, 'r') as f:
-            for line in f.readlines():
-                line = self.cleanse_line(line)
-                if line:
-                    content += line + ' '
-
-        content = self.remove_comment(content)
-        tokens = self.tokenizer.tokenize(content)
-
-        return tokens
+    output_path = os.path.join(
+        output_dir_path,
+        '.'.join(input_file_name.split('.')[:-1]) + '.vm',
+    )
+    return output_path
 
 
 def write_vms(vms, output_path):
@@ -95,8 +85,8 @@ def compile(
     vm_output_path: str,
     vm_right_path: str,
 ):
-    jack_analyzer = JackAnalyzer()
-    tokens = jack_analyzer.tokenize(input_path)
+    tokenizer = Tokenizer()
+    tokens = tokenizer.tokenize_file(input_path)
 
     parser = Parser('compiler_config.json')
     token_tree = parser.parse(tokens)
@@ -108,45 +98,6 @@ def compile(
     vms = converter.convert(token_tree)
     write_vms(vms, vm_output_path)
     diff(vm_output_path, vm_right_path)
-
-
-def get_xml_output_path(input_path: str):
-    output_dir_path = os.path.join(
-        os.path.dirname(input_path), 'Output',
-    )
-    os.makedirs(output_dir_path, exist_ok=True)
-    input_file_name = os.path.basename(input_path)
-
-    output_path = os.path.join(
-        output_dir_path,
-        '.'.join(input_file_name.split('.')[:-1]) + '.xml',
-    )
-    return output_path
-
-
-def get_vm_output_path(input_path: str):
-    output_dir_path = os.path.join(
-        os.path.dirname(input_path), 'Output',
-    )
-    os.makedirs(output_dir_path, exist_ok=True)
-    input_file_name = os.path.basename(input_path)
-
-    output_path = os.path.join(
-        output_dir_path,
-        '.'.join(input_file_name.split('.')[:-1]) + '.vm',
-    )
-    return output_path
-
-
-def get_vm_right_path(input_path: str):
-    output_dir_path = os.path.dirname(input_path)
-    input_file_name = os.path.basename(input_path)
-
-    output_path = os.path.join(
-        output_dir_path,
-        '.'.join(input_file_name.split('.')[:-1]) + '.vm',
-    )
-    return output_path
 
 
 def run():
